@@ -6,7 +6,9 @@ require('dotenv').config();
 const logRoutes = require('./middleware/logRoutes');
 const checkAuthentication = require('./middleware/checkAuthentication');
 const authControllers = require('./controllers/authControllers');
-const todoControllers = require('./controllers/todoControllers');
+const teamControllers = require('./controllers/teamControllers');
+const playerControllers = require('./controllers/playerControllers');
+
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -34,13 +36,20 @@ app.get('/api/auth/me', authControllers.getMe);
 app.delete('/api/auth/logout', authControllers.logout);
 
 // ====================================
-// Todo routes (all require authentication)
+// Team routes (all require authentication)
 // ====================================
 
-app.get('/api/todos', checkAuthentication, todoControllers.listTodos);
-app.post('/api/todos', checkAuthentication, todoControllers.createTodo);
-app.patch('/api/todos/:todo_id', checkAuthentication, todoControllers.updateTodo);
-app.delete('/api/todos/:todo_id', checkAuthentication, todoControllers.deleteTodo);
+app.get('/api/teams', checkAuthentication, teamControllers.listTeams);
+app.post('/api/teams', checkAuthentication, teamControllers.createTeam);
+app.patch('/api/teams/:team_id/players', checkAuthentication, teamControllers.addPlayerToTeam);
+app.delete('/api/teams/:team_id/players/:player_id', checkAuthentication, teamControllers.removePlayerFromTeam);
+
+// ====================================
+// Player routes (all require authentication)
+// ====================================
+
+app.get('/api/players', checkAuthentication, playerControllers.listPlayers);
+app.get('/api/players/:player_id', checkAuthentication, playerControllers.getPlayer);
 
 // ====================================
 // Global Error Handler
