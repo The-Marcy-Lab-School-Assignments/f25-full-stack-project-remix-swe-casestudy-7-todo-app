@@ -6,162 +6,218 @@
 
 body {
   font-family: system-ui, sans-serif;
-  background: #f5f5f5;
+  background: #f0f4f8;
   color: #1a1a1a;
 }
 
-main {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
+/* ── App Shell Layout ─────────────────────────────────────────────────────────── */
 
-h1 {
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  color: #1d4ed8;
-}
-
-/* Auth forms */
-#auth-section {
+#app-shell {
   display: flex;
-  gap: 1.5rem;
+  height: 100vh;
+  overflow: hidden;
 }
 
-form {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  flex: 1;
-}
-
-form h2 {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-  color: #374151;
-}
-
-form input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 0.95rem;
-}
-
-form button[type='submit'] {
-  background: #1d4ed8;
+#sidebar {
+  width: 220px;
+  min-width: 220px;
+  background: #0f766e;
   color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.error {
-  color: #dc2626;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Logged-in view */
-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  padding: 1.5rem 0;
+  height: 100vh;
 }
 
-#user-controls {
+#sidebar-logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 1rem;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.nav-btn.active {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+}
+
+#logout-btn {
+  margin-top: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+#logout-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+#main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem 2rem;
   background: white;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-#user-controls button {
-  background: #dc2626;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
+#topbar h1 {
+  font-size: 1.3rem;
+  color: #0f766e;
+}
+
+#welcome-user {
   font-size: 0.9rem;
+  color: #6b7280;
 }
 
-/* Add todo form */
-#add-todo-form {
-  display: flex;
-  gap: 0.5rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  flex-direction: column;
-}
-
-#add-todo-form label {
-  font-size: 0.9rem;
-  color: #374151;
-  display: none;
-}
-
-#add-todo-form input {
+#page-content {
   flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  margin-bottom: 0;
+  overflow-y: auto;
+  padding: 2rem;
 }
 
-#add-todo-form button {
-  background: #1d4ed8;
+/* ── Forms ────────────────────────────────────────────────────────────────────── */
+
+.section-form,
+#add-medication-form {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.form-fields label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.form-fields input,
+.form-fields select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.form-fields input:focus,
+.form-fields select:focus {
+  outline: none;
+  border-color: #0f766e;
+}
+
+.section-form button[type='submit'],
+#add-medication-form button[type='submit'] {
+  background: #0f766e;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.95rem;
+  font-weight: 500;
+  align-self: flex-start;
+  transition: background 0.2s;
 }
 
-/* Todo list */
-#todo-list {
+.section-form button[type='submit']:hover,
+#add-medication-form button[type='submit']:hover {
+  background: #0d6460;
+}
+
+/* ── Lists ────────────────────────────────────────────────────────────────────── */
+
+.item-list,
+#medication-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.todo-item {
+.list-item,
+.medication-item {
   background: white;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #0f766e;
   border-radius: 8px;
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 
-.todo-item input[type='checkbox'] {
+.list-item span,
+.medication-item span {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.medication-item input[type='checkbox'] {
   width: 1rem;
   height: 1rem;
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.todo-item span {
-  flex: 1;
-  font-size: 0.95rem;
-}
-
-.todo-item span.completed {
+.completed {
   text-decoration: line-through;
   color: #9ca3af;
 }
@@ -177,9 +233,152 @@ section {
   flex-shrink: 0;
 }
 
-@media (min-width: 480px) {
-  #add-todo-form {
-    flex-direction: row;
-    align-items: flex-end;
-  }
+.delete-btn:hover {
+  background: #b91c1c;
+}
+
+/* ── Status Badge ─────────────────────────────────────────────────────────────── */
+
+.status-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-normal { background: #d1fae5; color: #065f46; }
+.status-abnormal { background: #fee2e2; color: #991b1b; }
+.status-pending { background: #fef9c3; color: #854d0e; }
+
+/* ── Modal ────────────────────────────────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-cancel {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.modal-confirm {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* ── Auth Page ────────────────────────────────────────────────────────────────── */
+
+#auth-section {
+  max-width: 420px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+#auth-section form {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#auth-section h2 {
+  font-size: 1.4rem;
+  color: #0f766e;
+  margin-bottom: 0.5rem;
+}
+
+#auth-section input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+#auth-section input:focus {
+  outline: none;
+  border-color: #0f766e;
+}
+
+#auth-section button[type='submit'] {
+  background: #0f766e;
+  color: white;
+  border: none;
+  padding: 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+#auth-section button[type='submit']:hover {
+  background: #0d6460;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.85rem;
+}
+
+.auth-toggle {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #0f766e;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: underline;
+  padding: 0;
 }
